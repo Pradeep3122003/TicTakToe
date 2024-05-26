@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tictak</title>
+
+    <style>
+        body {
+            user-select: none;
+            padding: 0px;
+            margin: 0px 0px;
+            height: 100svh;
+            width: 100svw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: linear-gradient(rgb(117, 240, 191),black);
+        }
+
+        .box {
+            height: calc(25svh + 25svw);
+            width: calc(25svh + 25svw);
+
+
+
+        }
+
+        .bx {
+            height: 33%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: antiquewhite;
+        }
+
+        .b {
+            height: 100%;
+            width: 33%;
+            margin: 0px 0px;
+            padding: 0px;
+            display: flex;
+            background-color: antiquewhite;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: 800;
+            border: 1px solid black;
+            
+        }
+
+        .play{
+            height: calc(10svh + 10svw);
+            width: calc(10svh + 10svw);
+            background-color: rgb(52, 54, 54);
+            position: absolute;
+            margin-left:-80svw ;
+            color: rgb(255, 247, 0);
+            text-shadow: 0px 0px 3px rgb(0, 89, 255);
+        }
+
+        .play div{
+            height: 50%;
+            width: 100%;
+          
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play div input{
+            height: 60%;
+            width: 70%;
+            margin-right: 5%;
+        }
+
+        @media screen and (max-width: 480px){
+            .play{
+                margin-left: 0px;
+                margin-top: -70svh;
+                width: 40svw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="bx">
+            <div class="b" id="b1"></div>
+            <div class="b" id="b2"></div>
+            <div class="b" id="b3"></div>
+        </div>
+
+        <div class="bx">
+            <div class="b" id="b4"></div>
+            <div class="b" id="b5"></div>
+            <div class="b" id="b6"></div>
+        </div>
+
+        <div class="bx">
+            <div class="b" id="b7"></div>
+            <div class="b" id="b8"></div>
+            <div class="b" id="b9"></div>
+        </div>
+
+
+    </div>
+
+    <div class="play">
+        <div id="P1"><input type="text" name="" id="p1" placeholder="player1">O</div>
+        <div id="P2"><input type="text" name="" id="p2" placeholder="player2">X</div>
+    </div>
+
+    <script>
+        var term = 0;
+        let b = document.querySelectorAll('.b');
+
+        let b1 = document.getElementById("b1");
+        let b2 = document.getElementById("b2");
+        let b3 = document.getElementById("b3");
+        let b4 = document.getElementById("b4");
+        let b5 = document.getElementById("b5");
+        let b6 = document.getElementById("b6");
+        let b7 = document.getElementById("b7");
+        let b8 = document.getElementById("b8");
+        let b9 = document.getElementById("b9");
+
+        let p1=document.getElementById("p1");
+        let P1=document.getElementById("P1");
+        let p2=document.getElementById("p2");
+        let P2=document.getElementById("P2");
+
+        let plot = [b1, b2, b3, b4, b5, b6, b7, b8, b9];
+        let dot = [91,92,93,94,95,96,98,97,99];
+        var ter=["O","X"]
+
+        function index(x) {
+            for (var i = 0; i < plot.length; i++) {
+                if (plot[i] == x)
+                    return i;
+            }
+        }
+
+        plot.forEach(function (x) {
+            x.onclick = function () {
+                if (dot[index(x)] != 0 && dot[index(x)] != 1) {
+                    x.textContent = ter[term];
+                    dot[index(x)] = term;
+                    
+
+                    win();
+
+                    if (term == 0)
+                        {term = 1;
+                            P2.style.fontSize="1.4em";
+                            P1.style.fontSize="1em";
+                        }
+                    else
+                        {term = 0;
+                            P1.style.fontSize="1.4em";
+                            P2.style.fontSize="1em";
+                        }
+                }
+
+
+
+            }
+        })
+
+
+
+        function win() {
+            if (dot[0] == dot[3] && dot[3] == dot[6])
+                hi(0,3,5);
+            else if (dot[1] == dot[4] && dot[4] == dot[7])
+                hi(1,4,7);
+            else if (dot[2] == dot[5] && dot[5] == dot[8])
+                hi(2,5,8);
+            else if (dot[0] == dot[1] && dot[1] == dot[2])
+                hi(0,1,2);
+            else if (dot[3] == dot[4] && dot[4] == dot[5])
+                hi(3,4,5);
+            else if (dot[6] == dot[7] && dot[7] == dot[8])
+                hi(6,7,8);
+            else if (dot[0] == dot[4] && dot[4] == dot[8])
+                hi(0,4,8);
+            else if (dot[2] == dot[4] && dot[4] == dot[6])
+                hi(2,4,6);
+            else
+              return 0;
+
+
+        }
+
+
+        function hi(x,y,z) {
+
+            for(var i=0;i<9;i++)
+            {
+                if(i==x || i==y || i==z)
+                   {
+                    plot[i].style.backgroundColor="lightgreen";
+                    plot[i].style.transition="1s";
+                   
+                   }
+                 else{
+                    plot[i].style.opacity="0.2";
+                    plot[i].style.transition="1s";
+                 }
+            }
+
+            if(dot[x]==0)
+            {
+                P1.style.height="100%";
+                
+                
+                P2.style.display="none";
+                P2.style.transition="0.5s";
+                P1.style.transition="1.5s";
+               
+            }
+            else{
+                P2.style.height="100%";
+                
+                
+                P1.style.display="none";
+                P1.style.transition="0.5s";
+                P2.style.transition="1.5s";
+            }
+        }
+
+
+
+
+    </script>
+</body>
+
+          </html>
